@@ -1,0 +1,33 @@
+apply plugin: 'com.android.library'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def opencvDir = properties.getProperty('opencv.dir')
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "27.0.3"
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        externalNativeBuild {
+            cmake {
+                cppFlags "-frtti -fexceptions"
+                arguments "-DOpenCV_DIR="+opencvDir
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path 'CMakeLists.txt'
+        }
+    }
+}
