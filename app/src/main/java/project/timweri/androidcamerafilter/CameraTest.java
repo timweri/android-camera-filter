@@ -28,14 +28,8 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
     private static final String TAG = "OCVSample::Activity";
 
     private CameraBridgeViewBase mOpenCvCameraView;
-    private boolean mIsJavaCamera = true;
-    private MenuItem mItemSwitchCamera = null;
 
-    private Mat mRgba, mGray, mHsv;
-
-    private Spinner spnFilter;
-
-    private ArrayList<String> ArrFilter;
+    private Mat mRgba, mHsv;
 
     private static final int CAMERA_REQUEST_CODE = 1;
 
@@ -130,7 +124,6 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
         // get each frame from camera
         mRgba = inputFrame.rgba();
         BasicFilter filter = new BasicFilter();
-        Scalar color = new Scalar(0, 0, 255);
 
         reset_cache = true;
         filter.solidBlendRGBA(mRgba.getNativeObjAddr(), (byte) 0, (byte) 0, (byte) 255, (float) 0.5, reset_cache);
