@@ -19,6 +19,14 @@ android {
         }
     }
 
+    // TODO: Check if this is useful
+    sourceSets {
+        main {
+            jni.srcDirs = ['src/main/cpp']
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
