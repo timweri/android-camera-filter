@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.4.1)
 set(CMAKE_VERBOSE_MAKEFILE on)
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/include)
+include_directories (${OPENCV_DIR}/sdk/native/jni/include)
 add_library(blend
             SHARED
             src/main/cpp/basicfilter/blend.cpp)
