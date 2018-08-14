@@ -20,13 +20,31 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/button_solid_blend"
+        android:id="@+id/button_solid_blend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Solid Blend"
+        tools:layout_editor_absoluteX="157dp"
+        tools:layout_editor_absoluteY="9dp"
+        android:onClick="showSolidBlend"/>
+
+        <Button
+            android:id="@+id/button_gaussian_blur"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Solid Blend"
+            android:text="Gaussian Blur"
             tools:layout_editor_absoluteX="157dp"
             tools:layout_editor_absoluteY="9dp"
-            android:onClick="showSolidBlend"/>
+            android:onClick="showGaussianBlur"/>
+
+        <Button
+            android:id="@+id/button_linear_interp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Linear Interpolate"
+            tools:layout_editor_absoluteX="157dp"
+            tools:layout_editor_absoluteY="9dp"
+            android:onClick="showLinearInterpolate"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
