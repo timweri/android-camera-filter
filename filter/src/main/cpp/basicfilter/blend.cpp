@@ -10,14 +10,14 @@ using namespace std;
 
 extern "C"
 void JNICALL Java_project_timweri_filter_basicfilter_BasicFilter_solidBlendRGBA(JNIEnv *env, jobject instance,
-                                                                         jlong matAddrRBGA,
+                                                                         jlong mat_addr_RBGA,
                                                                          jchar R,
                                                                          jchar G,
                                                                          jchar B,
                                                                          jfloat weight,
                                                                          jboolean reset_cache
 ) {
-    Mat *inputFrame = (Mat *) matAddrRBGA;
+    Mat *inputFrame = (Mat *) mat_addr_RBGA;
     static Mat solid_color;
     if (reset_cache || solid_color.empty()) {
         __android_log_print(ANDROID_LOG_INFO, "Info", "Rebuild solid_color");
