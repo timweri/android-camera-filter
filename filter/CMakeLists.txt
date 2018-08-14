@@ -3,7 +3,9 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 include_directories (${OPENCV_DIR}/sdk/native/jni/include)
 add_library(filter
             SHARED
-            src/main/cpp/basicfilter/blend.cpp)
+            src/main/cpp/basicfilter/blend.cpp
+            src/main/cpp/basicfilter/blur.cpp
+            src/main/cpp/basicfilter/color.cpp)
 
 add_library(lib_opencv SHARED IMPORTED)
 
