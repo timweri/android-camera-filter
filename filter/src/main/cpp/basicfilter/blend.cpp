@@ -6,7 +6,7 @@ using namespace std;
 
 
 extern "C"
-void JNICALL Java_project_timweri_basicfilter_BasicFilter_solidBlendRGBA(JNIEnv *env, jobject instance,
+void JNICALL Java_project_timweri_filter_basicfilter_BasicFilter_solidBlendRGBA(JNIEnv *env, jobject instance,
                                                                          jlong matAddrRBGA,
                                                                          jbyte R,
                                                                          jbyte G,

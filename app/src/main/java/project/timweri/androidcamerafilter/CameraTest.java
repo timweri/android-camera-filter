@@ -22,7 +22,6 @@ import org.opencv.core.Scalar;
 
 import java.util.ArrayList;
 
-import project.timweri.basicfilter.BasicFilter;
 
 public class CameraTest extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
     private static final String TAG = "OCVSample::Activity";
@@ -87,7 +86,7 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
         super.onResume();
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_3_0, this, mLoaderCallback);
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, this, mLoaderCallback);
         } else {
             Log.d(TAG, "OpenCV library found inside package. Using it!");
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
@@ -123,12 +122,13 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
         final int[] position = new int[1];
         // get each frame from camera
         mRgba = inputFrame.rgba();
-        BasicFilter filter = new BasicFilter();
 
         reset_cache = true;
-        filter.solidBlendRGBA(mRgba.getNativeObjAddr(), (byte) 0, (byte) 0, (byte) 255, (float) 0.5, reset_cache);
+        //solidBlendRGBA(mRgba.getNativeObjAddr(), (byte) 0, (byte) 0, (byte) 255, (float) 0.5, reset_cache);
         reset_cache = false;
 
         return mRgba;
     }
+
+    // public native void solidBlendRGBA(long matAddrRGBA, byte R, byte G, byte B, float weight, boolean reset_cache);
 }
