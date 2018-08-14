@@ -21,6 +21,10 @@ import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 
 import java.util.ArrayList;
+import java.util.Map;
+
+import project.timweri.filter.Filter;
+import project.timweri.filter.basicfilter.BasicFilter;
 
 
 public class CameraTest extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
@@ -33,6 +37,10 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
     private static final int CAMERA_REQUEST_CODE = 1;
 
     private boolean reset_cache = true;
+
+    private String filter_id;
+
+    Filter.Blend currentFilter;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -73,6 +81,14 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
 
         mOpenCvCameraView.setCvCameraViewListener(this);
+
+        // Check what filter was chosen
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            filter_id = extras.getString("filter_id");
+        } else {
+            filter_id = null;
+        }
     }
 
     @Override
@@ -84,6 +100,8 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
     @Override
     protected void onResume() {
         super.onResume();
+        reset_cache = true;
+        setupFilter();
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, this, mLoaderCallback);
@@ -113,22 +131,28 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
 
     @Override
     public void onCameraViewStopped() {
+        mHsv.release();
         mRgba.release();
     }
-
 
     @Override
     public Mat onCameraFrame(final CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         final int[] position = new int[1];
         // get each frame from camera
         mRgba = inputFrame.rgba();
-
-        reset_cache = true;
-        //solidBlendRGBA(mRgba.getNativeObjAddr(), (byte) 0, (byte) 0, (byte) 255, (float) 0.5, reset_cache);
+        currentFilter.applyBlend(mRgba, reset_cache);
         reset_cache = false;
-
         return mRgba;
     }
 
-    // public native void solidBlendRGBA(long matAddrRGBA, byte R, byte G, byte B, float weight, boolean reset_cache);
+    private void setupFilter() {
+        switch (filter_id) {
+            case "solid_blend":
+                BasicFilter basicfilter = new BasicFilter();
+                currentFilter = basicfilter.new SolidBlend((char) 255, (char) 0, (char) 0, (float) 0.5);
+                break;
+            default:
+                Log.e("FilterSelection", "Invalid filter chosen");
+        }
+    }
 }

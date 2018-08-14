@@ -14,6 +14,7 @@ public class FilterSelection extends AppCompatActivity {
 
     protected void showSolidBlend(View view) {
         Intent intent = new Intent(this, CameraTest.class);
+        intent.putExtra("filter_id", "solid_blend");
         startActivity(intent);
     }
 }
