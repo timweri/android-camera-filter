@@ -146,10 +146,17 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
     }
 
     private void setupFilter() {
+        BasicFilter basicfilter = new BasicFilter();
+
         switch (filter_id) {
             case "solid_blend":
-                BasicFilter basicfilter = new BasicFilter();
                 currentFilter = basicfilter.new SolidBlend((char) 255, (char) 0, (char) 0, (float) 0.5);
+                break;
+            case "gaussian_blur":
+                currentFilter = basicfilter.new GaussianBlur(5, 5);
+                break;
+            case "linear_interp":
+                currentFilter = basicfilter.new LinearInterpolate(new float[]{0, 1},null, null);
                 break;
             default:
                 Log.e("FilterSelection", "Invalid filter chosen");
