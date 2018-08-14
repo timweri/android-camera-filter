@@ -1,5 +1,8 @@
 #include <jni.h>
 #include <opencv2/opencv.hpp>
+#include <android/log.h>
+#include <cstring>
+
 
 using namespace cv;
 using namespace std;
@@ -8,15 +11,18 @@ using namespace std;
 extern "C"
 void JNICALL Java_project_timweri_filter_basicfilter_BasicFilter_solidBlendRGBA(JNIEnv *env, jobject instance,
                                                                          jlong matAddrRBGA,
-                                                                         jbyte R,
-                                                                         jbyte G,
-                                                                         jbyte B,
+                                                                         jchar R,
+                                                                         jchar G,
+                                                                         jchar B,
                                                                          jfloat weight,
                                                                          jboolean reset_cache
 ) {
     Mat *inputFrame = (Mat *) matAddrRBGA;
-    Scalar color = Scalar(R, G, B);
     static Mat solid_color;
-    if (reset_cache) solid_color = Mat(inputFrame->rows, inputFrame->cols, CV_8UC3, color);
+    if (reset_cache || solid_color.empty()) {
+        __android_log_print(ANDROID_LOG_INFO, "Info", "Rebuild solid_color");
+        solid_color = inputFrame->clone();
+        solid_color = solid_color.setTo(Scalar(R,G,B));
+    }
     addWeighted(*inputFrame, 1 - weight, solid_color, weight, 0.0, *inputFrame);
 }
