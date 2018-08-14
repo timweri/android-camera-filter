@@ -17,4 +17,16 @@ public class FilterSelection extends AppCompatActivity {
         intent.putExtra("filter_id", "solid_blend");
         startActivity(intent);
     }
+
+    protected void showGaussianBlur(View view) {
+        Intent intent = new Intent(this, CameraTest.class);
+        intent.putExtra("filter_id", "gaussian_blur");
+        startActivity(intent);
+    }
+
+    protected void showLinearInterpolate(View view) {
+        Intent intent = new Intent(this, CameraTest.class);
+        intent.putExtra("filter_id", "linear_interp");
+        startActivity(intent);
+    }
 }
