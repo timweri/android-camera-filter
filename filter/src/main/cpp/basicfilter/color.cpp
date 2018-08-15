@@ -47,10 +47,13 @@ void JNICALL Java_project_timweri_filter_basicfilter_BasicFilter_linearInterpola
     }
 
     uchar *p;
+    int result;
     for (int i = 0; i < nRows; ++i) {
         p = inputFrame->ptr<uchar>(i);
         for (int j = 0; j < nCols; ++j) {
-            p[j] = 255 * interpolate((jdouble) p[j] / (jdouble) 255, buckets, vals);
+            result = 255 * interpolate((jdouble) p[j] / (jdouble) 255, buckets, vals);
+            result = (result > 255) ? 255 : ((result < 0) ? 0 : result);
+            p[j] = result;
         }
     }
 
