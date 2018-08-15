@@ -68,17 +68,33 @@ public class BasicFilter extends Filter {
         }
     }
 
-    public native void linearInterpolate(long channelAddr, float[] values);
+    public native void linearInterpolate(long channelAddr, double[] values);
 
     public class LinearInterpolate implements BasicFilter.Blend {
-        public float[] vals_R = {0, 1};
-        public float[] vals_G = {0, 1};
-        public float[] vals_B = {0, 1};
+        public double[] vals_R = null;
+        public double[] vals_G = null;
+        public double[] vals_B = null;
+        private int R = 0, G = 1, B = 2;
+        private ArrayList channels_id = new ArrayList();
+        private double[][] vals;
 
-        public LinearInterpolate(float[] values_R, float[] values_G, float[] values_B) {
-            if (values_R != null) vals_R = values_R;
-            if (values_G != null) vals_G = values_G;
-            if (values_B != null) vals_B = values_B;
+        public LinearInterpolate(double[] values_R, double[] values_G, double[] values_B) {
+            channels_id.clear();
+            vals_R = values_R;
+            vals_G = values_G;
+            vals_B = values_B;
+
+            vals = new double[][]{values_R, values_G, values_B};
+
+            if (vals_R != null) {
+                channels_id.add(R);
+            }
+            if (vals_G != null) {
+                channels_id.add(G);
+            }
+            if (vals_B != null) {
+                channels_id.add(B);
+            }
         }
 
         @Override
@@ -86,9 +102,14 @@ public class BasicFilter extends Filter {
             List<Mat> channels = new ArrayList(3);
             Core.split(inputFrame, channels);
 
-            //linearInterpolate(channels.get(0).getNativeObjAddr(), vals_R);
-            linearInterpolate(channels.get(1).getNativeObjAddr(), vals_G);
-            linearInterpolate(channels.get(2).getNativeObjAddr(), vals_B);
+            for (int i = 0; i < channels_id.size(); ++i) {
+                int id = (int) channels_id.get(i);
+                linearInterpolate(channels.get(id).getNativeObjAddr(), vals[id]);
+            }
+
+            Core.merge(channels, inputFrame);
+        }
+    }
 
             Core.merge(channels, inputFrame);
         }

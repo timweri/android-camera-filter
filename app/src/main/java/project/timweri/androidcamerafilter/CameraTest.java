@@ -156,7 +156,12 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
                 currentFilter = basicfilter.new GaussianBlur(5, 5);
                 break;
             case "linear_interp":
-                currentFilter = basicfilter.new LinearInterpolate(new float[]{0, 1},null, null);
+                currentFilter = basicfilter.new LinearInterpolate(
+                        new double[]{0, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.8, 0.9, 0.95, 1.0},
+                        null, null);
+                break;
+            case "add_to_channel":
+                currentFilter = basicfilter.new AddToChannel(0, 0, 0.3);
                 break;
             default:
                 Log.e("FilterSelection", "Invalid filter chosen");

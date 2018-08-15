@@ -7,13 +7,12 @@ using namespace cv;
 using namespace std;
 
 
-float interpolate(jfloat val, jfloat *buckets, jfloat *vals) {
+jdouble interpolate(jdouble val, jdouble *buckets, jdouble *vals) {
     jint curbucket = (jint) (val / buckets[1]);
-    return val;
-    /*return (val - buckets[curbucket + 1])
+    return (val - buckets[curbucket + 1])
            / (buckets[curbucket] - buckets[curbucket + 1])
            * (vals[curbucket] - vals[curbucket + 1])
-           + vals[curbucket + 1];*/
+           + vals[curbucket + 1];
 }
 
 extern "C"
@@ -21,14 +20,14 @@ void JNICALL Java_project_timweri_filter_basicfilter_BasicFilter_linearInterpola
         JNIEnv *env,
         jobject instance,
         jlong channelAddr,
-        jfloatArray values
+        jdoubleArray values
 ) {
     jsize val_len = env->GetArrayLength(values);
-    jfloat *vals = env->GetFloatArrayElements(values, 0);
-    jfloat buckets[val_len];
+    jdouble *vals = env->GetDoubleArrayElements(values, 0);
+    jdouble buckets[val_len];
 
     {
-        float acc = 0, inc = 1 / val_len;
+        jdouble acc = 0, inc = (jdouble) 1 / (jdouble) val_len;
         for (int i = 0; i < val_len - 1; ++i) {
             buckets[i] = acc;
             acc += inc;
@@ -51,9 +50,10 @@ void JNICALL Java_project_timweri_filter_basicfilter_BasicFilter_linearInterpola
     for (int i = 0; i < nRows; ++i) {
         p = inputFrame->ptr<uchar>(i);
         for (int j = 0; j < nCols; ++j) {
-            p[j] = (uchar) (255 * interpolate(p[j] / 255, buckets, vals));
+            p[j] = 255 * interpolate((jdouble) p[j] / (jdouble) 255, buckets, vals);
         }
     }
 
-    env->ReleaseFloatArrayElements(values, vals, 0);
+    env->ReleaseDoubleArrayElements(values, vals, 0);
+}
 }
