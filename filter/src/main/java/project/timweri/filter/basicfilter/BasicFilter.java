@@ -17,6 +17,11 @@ public class BasicFilter extends Filter {
         System.loadLibrary("filter");
     }
 
+    public class NoFilter implements  BasicFilter.Blend {
+        @Override
+        public void applyBlend(Mat inputFrame, boolean reset_cache) {}
+    }
+
     private Mat solid_color;
 
     public void solidBlendRGBA(Mat inputFrame, char R, char G, char B, float weight, boolean reset_cache) {
@@ -144,10 +149,13 @@ public class BasicFilter extends Filter {
     }
 
     public class GothamFilter implements BasicFilter.Blend {
+        private int R = 0, G = 1, B = 2;
         @Override
         public void applyBlend(Mat inputFrame, boolean reset_cache) {
             List<Mat> channels = new ArrayList(3);
             Core.split(inputFrame, channels);
+            linearInterpolate(channels.get(R).getNativeObjAddr(), new double[]{0, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.8, 0.9, 0.95, 1.0});
+            addToChannel(channels.get(B).getNativeObjAddr(), 0.03);
             Core.merge(channels, inputFrame);
         }
     }

@@ -149,6 +149,9 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
         BasicFilter basicfilter = new BasicFilter();
 
         switch (filter_id) {
+            case "no_filter":
+                currentFilter = basicfilter.new NoFilter();
+                break;
             case "solid_blend":
                 currentFilter = basicfilter.new SolidBlend((char) 255, (char) 0, (char) 0, (float) 0.5);
                 break;

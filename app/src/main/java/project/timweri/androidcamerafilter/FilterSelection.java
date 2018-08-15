@@ -12,6 +12,12 @@ public class FilterSelection extends AppCompatActivity {
         setContentView(R.layout.activity_filter_selection);
     }
 
+    protected void showNoFilter(View view) {
+        Intent intent = new Intent(this, CameraTest.class);
+        intent.putExtra("filter_id", "no_filter");
+        startActivity(intent);
+    }
+
     protected void showSolidBlend(View view) {
         Intent intent = new Intent(this, CameraTest.class);
         intent.putExtra("filter_id", "solid_blend");
