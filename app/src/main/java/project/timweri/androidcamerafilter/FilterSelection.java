@@ -29,4 +29,10 @@ public class FilterSelection extends AppCompatActivity {
         intent.putExtra("filter_id", "linear_interp");
         startActivity(intent);
     }
+
+    protected void showAddToChannel(View view) {
+        Intent intent = new Intent(this, CameraTest.class);
+        intent.putExtra("filter_id", "add_to_channel");
+        startActivity(intent);
+    }
 }

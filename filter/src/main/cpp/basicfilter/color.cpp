@@ -56,4 +56,32 @@ void JNICALL Java_project_timweri_filter_basicfilter_BasicFilter_linearInterpola
 
     env->ReleaseDoubleArrayElements(values, vals, 0);
 }
+
+extern "C"
+void JNICALL Java_project_timweri_filter_basicfilter_BasicFilter_addToChannel(
+        JNIEnv *env,
+        jobject instance,
+        jlong channelAddr,
+        jdouble value
+) {
+    Mat *inputFrame = (Mat *) channelAddr;
+    CV_Assert(inputFrame->depth() == CV_8U);
+
+    jint nRows = inputFrame->rows;
+    jint nCols = inputFrame->cols;
+
+    if (inputFrame->isContinuous()) {
+        nCols *= nRows;
+        nRows = 1;
+    }
+
+    uchar *p;
+    for (int i = 0; i < nRows; ++i) {
+        p = inputFrame->ptr<uchar>(i);
+        for (int j = 0; j < nCols; ++j) {
+            jdouble result = (jdouble) p[j] / (jdouble) 255 + value;
+            result = (result > 1) ? 1 : ((result < 0) ? 0 : result);
+            p[j] = (uchar) (255 * result);
+        }
+    }
 }

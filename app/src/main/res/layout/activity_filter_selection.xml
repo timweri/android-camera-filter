@@ -45,6 +45,15 @@
             tools:layout_editor_absoluteX="157dp"
             tools:layout_editor_absoluteY="9dp"
             android:onClick="showLinearInterpolate"/>
+
+        <Button
+            android:id="@+id/button_add_to_channel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add To Channel"
+            tools:layout_editor_absoluteX="157dp"
+            tools:layout_editor_absoluteY="9dp"
+            android:onClick="showAddToChannel"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

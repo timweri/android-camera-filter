@@ -111,6 +111,34 @@ public class BasicFilter extends Filter {
         }
     }
 
+    public native void addToChannel(long channelAddr, double value);
+
+    public class AddToChannel implements BasicFilter.Blend {
+        public double[] vals = {0, 0, 0};
+        private int R = 0, G = 1, B = 2;
+        private ArrayList channels_id = new ArrayList();
+
+        public AddToChannel(double value_R, double value_G, double value_B) {
+            channels_id.clear();
+            vals[R] = value_R;
+            vals[G] = value_G;
+            vals[B] = value_B;
+
+            if (value_R != 0) channels_id.add(R);
+            if (value_G != 0) channels_id.add(G);
+            if (value_B != 0) channels_id.add(B);
+        }
+
+        @Override
+        public void applyBlend(Mat inputFrame, boolean reset_cache) {
+            List<Mat> channels = new ArrayList(3);
+            Core.split(inputFrame, channels);
+
+            for (int i = 0; i < channels_id.size(); ++i) {
+                int id = (int) channels_id.get(i);
+                addToChannel(channels.get(id).getNativeObjAddr(), vals[id]);
+            }
+
             Core.merge(channels, inputFrame);
         }
     }
