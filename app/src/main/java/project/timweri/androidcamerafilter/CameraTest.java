@@ -163,6 +163,9 @@ public class CameraTest extends AppCompatActivity implements CameraBridgeViewBas
             case "add_to_channel":
                 currentFilter = basicfilter.new AddToChannel(0, 0, 0.3);
                 break;
+            case "gotham_filter":
+                currentFilter = basicfilter.new GothamFilter();
+                break;
             default:
                 Log.e("FilterSelection", "Invalid filter chosen");
         }

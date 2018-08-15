@@ -35,4 +35,10 @@ public class FilterSelection extends AppCompatActivity {
         intent.putExtra("filter_id", "add_to_channel");
         startActivity(intent);
     }
+
+    protected void showGothamFilter(View view) {
+        Intent intent = new Intent(this, CameraTest.class);
+        intent.putExtra("filter_id", "gotham_filter");
+        startActivity(intent);
+    }
 }

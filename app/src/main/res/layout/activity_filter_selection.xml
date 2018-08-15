@@ -54,6 +54,15 @@
             tools:layout_editor_absoluteX="157dp"
             tools:layout_editor_absoluteY="9dp"
             android:onClick="showAddToChannel"/>
+
+        <Button
+            android:id="@+id/button_gotham_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gotham Filter"
+            tools:layout_editor_absoluteX="157dp"
+            tools:layout_editor_absoluteY="9dp"
+            android:onClick="showGothamFilter"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

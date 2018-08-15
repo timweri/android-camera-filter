@@ -142,4 +142,13 @@ public class BasicFilter extends Filter {
             Core.merge(channels, inputFrame);
         }
     }
+
+    public class GothamFilter implements BasicFilter.Blend {
+        @Override
+        public void applyBlend(Mat inputFrame, boolean reset_cache) {
+            List<Mat> channels = new ArrayList(3);
+            Core.split(inputFrame, channels);
+            Core.merge(channels, inputFrame);
+        }
+    }
 }
